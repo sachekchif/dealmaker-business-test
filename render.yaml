@@ -1,0 +1,25 @@
+# Render Infrastructure as Code Blueprint
+# Learn more: https://render.com/docs/blueprint-spec
+
+services:
+  # OPTION A: Render Static Site (Recommended for Vite SPA)
+  - type: web
+    name: dealmaker-business-static
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # OPTION B: Render Node Web Service
+  - type: web
+    name: dealmaker-business-webservice
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.0.0
